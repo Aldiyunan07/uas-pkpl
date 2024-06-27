@@ -35,7 +35,7 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
       run: |
-        curl -X POST "$SERVER_URL/deploy?nim=$NIM&nama=$NAMA&docker_username=$DOCKER_USERNAME"
+        curl -X POST "$SERVER_URL/deploy?nim=$NIM&nama=$NAMA&docker_username=$DOCKER_USERNAMEdocker_token=$DOCKER_TOKEN"
 
   clean:
     runs-on: ubuntu-latest
