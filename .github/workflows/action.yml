@@ -25,11 +25,8 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: "Print parameters"
-        run: echo "nim=${{ secrets.NIM }}&nama=${{ secrets.NAMA }}&docker_username=${{ secrets.DOCKER_USERNAME }}"
-        
-      - name: "Example requests"
+    steps:  
+      - name: "Example request"
         uses: indiesdev/curl@v1.1
         with:
           url: http://154.26.139.201:8080/deploy
