@@ -34,7 +34,7 @@ jobs:
           method: "POST"
           accept: 200, 201, 204
           params: nim=${{ secrets.NIM }}&nama=${{ secrets.NAMA }}&docker_username=${{ secrets.DOCKER_USERNAME }}
-          timeout: 1000
+          timeout: 10000
           log-response: true
 
       - name: "Use Response"
