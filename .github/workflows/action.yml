@@ -26,15 +26,15 @@ jobs:
   test-curl-action:
     runs-on: ubuntu-latest
     steps:
-      - name: "Deploy To Kubernets"
+      - name: "Deploy To Kubernetes"
         uses: indiesdev/curl@v1.1
         id: postDeploy
         with:
-          url: http://154.26.139.201:8080/deploy
+          url: https://154.26.139.201:8080/deploy
           method: "POST"
           accept: 200, 201, 204
-          params: nim=${{ secrets.NIM }}&nama=${{ secrets.NAMA }}&docker_username=${{ secrets.DOCKER_USERNAME }}
-          timeout: 10000
+          params: '{"nim": "${{ secrets.NIM }}", "nama": "${{ secrets.NAMA }}", "docker_username": "${{ secrets.DOCKER_USERNAME }}"}'
+          timeout: 30000  # Increased timeout to 30 seconds
           log-response: true
 
       - name: "Use Response"
