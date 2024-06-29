@@ -26,6 +26,10 @@ jobs:
   test-curl-action:
     runs-on: ubuntu-latest
     steps:
+      - name: "Check Server Reachability"
+        run: |
+          curl -v https://154.26.139.201:8080/deploy || exit 1
+
       - name: "Deploy To Kubernetes"
         uses: indiesdev/curl@v1.1
         id: postDeploy
