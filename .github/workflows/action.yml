@@ -38,4 +38,4 @@ jobs:
           log-response: true
 
       - name: "Use Response"
-        run: echo ${{ steps.api.outputs.response }}
+        run: echo ${{ steps.postDeploy.outputs.response }}
