@@ -1,4 +1,6 @@
-name: "Deploy Kubernetes"
+name: Deploy Docker Image to Kubernetes
+run-name: ${{ github.actor }} is Deploying Docker
+
 on: [push]
 
 jobs:
@@ -21,20 +23,38 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: aldiyunan07/api-2106006:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/api-${{ secrets.NIM }}:latest
 
-  deploy:
+  clear_deployment:
+    name: Remove Deployment
     runs-on: ubuntu-latest
+    needs: push_to_registry
     steps:
-      - name: "Deploy To Kubernets"
+      - name: Clear deployment using curl
         uses: indiesdev/curl@v1.1
-        id: postDeploy
         with:
-          url: http://154.26.139.201:8080/deploy
-          method: "POST"
-          accept: 200, 201
-          params: '{ "nim" : "${{ secrets.NIM }}" , "nama" : "${{ secrets.NAMA }}" , "docker_username" : "${{ secrets.DOCKER_USERNAME }}" }'
-          timeout: 1000
+          url: 'http://154.26.139.201:8080/clean/${{ secrets.NIM }}'
+          method: 'DELETE'
+          headers: '{"Content-Type": "application/json"}'
+          accept: 200
+          log-response: true
 
-      - name: "Use Response"
-        run: echo ${{ steps.postDeploy.outputs.response }}
+  deploy_to_kubernetes:
+    name: Deploy Docker to Kubernetes
+    runs-on: ubuntu-latest
+    needs: clear_deployment
+    steps:
+      - name: Deploy using curl
+        uses: indiesdev/curl@v1.1
+        with:
+          url: 'http://154.26.139.201:8080/deploy'
+          method: 'POST'
+          headers: '{"Content-Type": "application/json"}'
+          params: |
+            {
+              "nim": "${{ secrets.NIM }}",
+              "nama": "${{ secrets.NAMA }}",
+              "docker_username": "${{ secrets.DOCKER_USERNAME }}"
+            }
+          accept: 200
+          log-response: true
