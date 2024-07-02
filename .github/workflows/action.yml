@@ -21,7 +21,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: aldiyunan07/api-2106006:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/api-${{ secrets.NIM }}:latest
 
   deploy:
     runs-on: ubuntu-latest
